@@ -3,7 +3,7 @@ This project develops a simple and interpretable machine learning model for pred
 
 The dataset contains 4,140 housing records, with each property described by numerical attributes such as living area, number of bedrooms and bathrooms, number of floors, lot size, construction year, renovation status, waterfront status, and selected quality indicators. The target variable is the property sale price.
 
-Multiple regression models were evaluated, including `Linear Regression`, `Decision Tree`, and `Random Forest`, using performance metrics such as Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), R-squared, and 5-fold cross-validation scores, along with residual diagnostics. The project emphasises practical evaluation, interpretability, and fair model comparison.
+Multiple regression models were evaluated, including `Linear Regression`, `Decision Tree` and `Random Forest`, using performance metrics such as Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), R-squared, and 5-fold cross-validation scores, along with residual diagnostics. The project emphasises practical evaluation, interpretability, and fair model comparison.
 
 ## The Questions
 1. Can house prices be predicted using a limited set of basic structural features?
@@ -85,14 +85,13 @@ models = {
 | Decision Tree (tuned) | 0.25 | 0.28 | $183,162 | $345,011 |
 | Random Forest (tuned) | 0.31 | 0.35 | $178,301 | $330,757 |
 
-**Linear Regression is the best-performing model** on this feature set, explaining approximately 55% of the variance in house prices with an average prediction error of about $160,500. This is a meaningful improvement over the original 39% baseline, achieved by including the `waterfront` feature and removing zero-price data errors.
+**Linear Regression is the best-performing model** on this feature set, explaining approximately 55% of the variance in house prices with an average prediction error of about $160,500.
 
 Residual analysis confirms that errors are generally centred around zero for lower-priced properties but grow substantially for higher-priced homes - a pattern called **heteroscedasticity**. The Q-Q plot of residuals shows departures from normality in the tails, consistent with this. The Actual vs Predicted plots confirm that while the model captures the general price trend well, it consistently underestimates the most expensive properties.
 
 The cross-validation R² (0.47) is noticeably lower than the test R² (0.55), indicating the test split was slightly favourable. The CV score gives a more realistic estimate of real-world performance.
 
-![actual_vs_prdicted_house_prices.png](images/actual_vs_prdicted_house_prices.png)  
-*Linear regression captures the general price trend but underperforms for expensive properties*
+![actual_vs_prdicted_house_prices.png](images/actual_vs_prdicted_house_prices.png)
 
 ## Insights
 
