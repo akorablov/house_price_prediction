@@ -46,7 +46,7 @@ df['condition'] = df['condition'].fillna(df['condition'].median())
 View my notebook with detailed steps here: [house_price_prediction_improved.ipynb](house_price_prediction_improved.ipynb)
 
 ## The Analysis
-The dataset was prepared for modeling by selecting all available structural features, including `waterfront` which was previously excluded. Features chosen: `living area` (sqft_living), `bedrooms`, `bathrooms`, `floors`, `condition`, `year built`, `year renovated`, `view`, and `waterfront`. The property price was used as the target variable.
+The dataset was prepared for modeling by selecting all available structural features, including `waterfront`. Features chosen: `living area` (sqft_living), `bedrooms`, `bathrooms`, `floors`, `condition`, `year built`, `year renovated`, `view`, and `waterfront`. The property price was used as the target variable.
 
 ```python
 FEATURES = ['sqft_living', 'bedrooms', 'bathrooms', 'floors',
@@ -118,4 +118,4 @@ Interpreting heteroscedasticity and the cross-validation gap also required caref
 ## Conclusion
 This project demonstrates that careful data cleaning, complete feature selection, and fair model evaluation matter more than model complexity. Including `waterfront`, removing data errors, regularising tree models, and adding cross-validation transformed the analysis from a partially misleading baseline into a technically sound and defensible result.
 
-Linear regression remains the strongest model on this feature set - interpretable, stable, and well-calibrated for the mid-price range. To push performance further, the next steps would be adding location features (zip code or coordinates), engineering interaction terms, applying a log transformation to the target variable to address heteroscedasticity, and using `GridSearchCV` for systematic tuning.
+Linear regression remains the strongest model on this feature set, interpretable, stable, and well-calibrated for the mid-price range. To push performance further, the next steps would be adding location features (zip code or coordinates), engineering interaction terms, applying a log transformation to the target variable to address heteroscedasticity, and using `GridSearchCV` for systematic tuning.
