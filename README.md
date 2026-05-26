@@ -1,75 +1,49 @@
 ## Overview
-This project develops a simple and interpretable machine learning model for predicting house prices using historical residential property data. The objective is to build a reliable model capable of estimating property values using a set of key structural features, while demonstrating a complete and well-structured end-to-end modeling workflow.
 
-The dataset contains 4,140 housing records, with each property described by numerical attributes such as living area, number of bedrooms and bathrooms, number of floors, lot size, construction year, renovation status, waterfront status, and selected quality indicators. The target variable is the property sale price.
-
-Multiple regression models were evaluated, including `Linear Regression`, `Decision Tree` and `Random Forest`, using performance metrics such as Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), R-squared, and 5-fold cross-validation scores, along with residual diagnostics. The project emphasises practical evaluation, interpretability, and fair model comparison.
+This project walks through that end-to-end process using a dataset of 4140 residential property sales. I trained and compared three regression models — Linear Regression, Decision Tree, and Random Forest — to estimate sale prices from structural features like living area, number of rooms, condition, and waterfront status. The goal wasn't just to get a prediction out, but to understand how well these features actually explain price, where each model struggles and what that reveals about real estate pricing in practice.
 
 ## The Questions
+
 1. Can house prices be predicted using a limited set of basic structural features?
-2. How does a linear regression model perform compared to more complex models when those models are properly regularised?
-3. What do residuals and model diagnostics reveal about prediction errors and model limitations?
+2. How does a simple linear model hold up against more complex tree-based approaches?
+3. What do the residuals and diagnostics tell us about where predictions break down?
 
-## Tools I Used
-This project was developed using the following tools to support analysis, modeling, and presentation:
+## Tools Used
 
-- **Python** - the primary language used for data exploration and predictive modeling
-  - **Pandas** for data manipulation, cleaning, and feature selection
-  - **Matplotlib** for data visualisation and residual diagnostics
-  - **NumPy** for numerical operations
-  - **SciPy** for statistical diagnostics (Q-Q plot)
-  - **scikit-learn** for model training, evaluation, and comparison
+- **Python** - pandas for data wrangling, matplotlib for visualisation, NumPy for numerical work, SciPy for statistical diagnostics, and scikit-learn for all the modeling
+- **Jupyter Notebooks** - for keeping the analysis and code in one readable place
+- **Visual Studio Code** - for writing and testing scripts
+- **Git & GitHub** - for version control and sharing
 
-- **Jupyter Notebooks** - for running experiments and documenting the analysis in a clear, step-by-step manner
+## Data Cleaning
 
-- **Visual Studio Code** - for writing, testing, and organizing Python scripts
-
-- **Git & GitHub** - for version control, experiment tracking, and project sharing
-
-## Import & Clean Up Data
-The required libraries were imported and the dataset was loaded for initial inspection. Basic exploratory checks were performed to understand data structure and identify quality issues.
-
-Two data quality issues were found and addressed:
+Running a few basic checks turned up two problems I wouldn't have caught otherwise.
 
 **Zero-price records:** 49 records (1.2% of the dataset) had a sale price of $0, which are almost certainly data entry errors. These were removed before modeling to avoid distorting results.
 
-**Missing condition values:** The `condition` column contained 545 missing entries. These were imputed using the column median - a robust strategy that preserves data while reducing the influence of outliers.
+**Missing condition values:** The `condition` column contained 545 missing entries, which I filled using the median. I chose the median over the mean because it's less sensitive to outliers, which felt like the right call for a skewed variable like property condition.
 
 ```python
-# Remove zero-price records
 df = df[df['price'] > 0]
-
-# Impute missing condition values
 df['condition'] = df['condition'].fillna(df['condition'].median())
 ```
 
-View my notebook with detailed steps here: [house_price_prediction_improved.ipynb](house_price_prediction_improved.ipynb)
+View the full notebook here: [house_price_prediction_improved.ipynb](house_price_prediction_improved.ipynb)
 
 ## The Analysis
-The dataset was prepared for modeling by selecting all available structural features, including `waterfront`. Features chosen: `living area` (sqft_living), `bedrooms`, `bathrooms`, `floors`, `condition`, `year built`, `year renovated`, `view`, and `waterfront`. The property price was used as the target variable.
+
+The feature set includes everything structural the dataset offers: `sqft_living`, `bedrooms`, `bathrooms`, `floors`, `condition`, `yr_built`, `yr_renovated`, `view` and `waterfront`. The last one, a simple yes/no flag for whether a property is on the waterfront, turns out to matter quite a lot, as we'll see.
 
 ```python
 FEATURES = ['sqft_living', 'bedrooms', 'bathrooms', 'floors',
             'condition', 'yr_built', 'yr_renovated', 'view', 'waterfront']
-
 X = df[FEATURES]
 y = df['price']
 ```
 
-The data was split into training and testing subsets using an 80/20 split with `random_state=42` for reproducibility.
+Data was split 80/20 into training and test sets. Three models were trained, but importantly, the Decision Tree and Random Forest weren't just run on default settings. Without constraints, tree models will memorise the training data and fall apart on anything new. So both were regularised with `max_depth` and `min_samples_leaf` limits to keep them honest. All three models were also evaluated with 5-fold cross-validation, not just a single test split.
 
 ```python
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42)
-```
-
-Three models were trained and compared. Critically, the Decision Tree and Random Forest were **regularised with hyperparameters** (`max_depth`, `min_samples_leaf`) to prevent overfitting - without this, default tree models massively overfit and produce misleading comparisons. All models were also evaluated using **5-fold cross-validation** alongside the test set score to detect overfitting and give a more realistic performance estimate.
-
-```python
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor
-
 models = {
     'Linear Regression': LinearRegression(),
     'Decision Tree': DecisionTreeRegressor(max_depth=6, min_samples_leaf=10, random_state=42),
@@ -82,40 +56,43 @@ models = {
 | Model | Test R² | CV R² (mean) | MAE | RMSE |
 |---|---|---|---|---|
 | Linear Regression | 0.55 | 0.47 | $160,508 | $267,982 |
-| Decision Tree (tuned) | 0.25 | 0.28 | $183,162 | $345,011 |
-| Random Forest (tuned) | 0.31 | 0.35 | $178,301 | $330,757 |
+| Decision Tree | 0.25 | 0.28 | $183,162 | $345,011 |
+| Random Forest | 0.31 | 0.35 | $178,301 | $330,757 |
 
-**Linear Regression is the best-performing model** on this feature set, explaining approximately 55% of the variance in house prices with an average prediction error of about $160,500.
+Linear Regression came out on top, which might seem surprising, but it makes sense here. With a relatively small and mostly linear feature set, the added complexity of tree-based models doesn't buy much. They can't find structure that isn't there.
 
-Residual analysis confirms that errors are generally centred around zero for lower-priced properties but grow substantially for higher-priced homes - a pattern called **heteroscedasticity**. The Q-Q plot of residuals shows departures from normality in the tails, consistent with this. The Actual vs Predicted plots confirm that while the model captures the general price trend well, it consistently underestimates the most expensive properties.
+The model explains about 55% of the variation in sale prices, with an average prediction error around $160,000. That's reasonable for a structural-features-only model, but it's also a clear signal that price is being driven by things we're not measuring - location above all else.
 
-The cross-validation R² (0.47) is noticeably lower than the test R² (0.55), indicating the test split was slightly favourable. The CV score gives a more realistic estimate of real-world performance.
+The cross-validation R² (0.47) is worth noting too. It's lower than the test score (0.55), which means the test split was slightly kind. The CV number is the more honest estimate of how this would perform on genuinely new data.
 
 ![actual_vs_prdicted_house_prices.png](images/actual_vs_prdicted_house_prices.png)
 
+Looking at the residuals, there's a clear fan-shaped pattern, errors stay small for cheaper homes but blow out for expensive ones. This is heteroscedasticity and it shows up in the Q-Q plot too, where the tails deviate from the normal line. In plain terms: the model is fairly reliable in the middle of the market, but loses confidence at the high end where premium factors like views, neighbourhood prestige, and lot quality start dominating the price.
+
 ## Insights
 
-1. **Can house prices be predicted using a limited set of basic structural features?** Yes, to a meaningful extent. The improved model explains approximately 55% of price variance - a substantial gain over the original 39%, achieved by including `waterfront` and cleaning zero-price records. However, a $160,000 average error on a median price of ~$460,000 shows the limits of structural features alone: location, neighbourhood quality, and premium property characteristics are not captured.
+**On predicting price from structure alone:** it works, up to a point. Fifty-five percent of price variance is explainable from physical features, which is genuinely useful as a baseline. But a $160,000 average error on a median price around $460,000 is a honest reminder that a house is more than its square footage.
 
-2. **How does linear regression compare to properly regularised tree models?** Linear Regression outperforms both the tuned Decision Tree and tuned Random Forest on this dataset. This is not a general rule - it reflects that the available features are too few and too linear for tree-based models to find splits that go beyond what a linear fit already captures. With location features or richer inputs, Random Forest would likely pull ahead.
+**On model complexity:** more complexity didn't help here. Linear Regression beat both tree models because the signal in this feature set is largely linear. This isn't a general result. Give a Random Forest rich location data and it would likely pull ahead, but it's a good illustration of why model choice should follow the data, not the other way around.
 
-3. **What do residuals and model diagnostics reveal?** Residual analysis exposes two key limitations: heteroscedasticity (errors grow with predicted price) and non-normality in the tails (visible in the Q-Q plot). Both point to missing pricing drivers for expensive properties. The cross-validation gap also shows the model is somewhat optimistic on the chosen test split. These diagnostics clearly identify where predictions are reliable and where they should be treated with caution.
+**On the residuals:** the heteroscedasticity pattern is the most useful diagnostic finding. It points directly at what's missing: the model doesn't know anything about where the house is, and for expensive properties that matters enormously. The diagnostics don't just show that the model has limits, they show *where* and *why*.
 
 ## What I Learned
-Through this project, I learned how to structure an end-to-end machine learning workflow - from data preparation and feature selection to model training, evaluation, and interpretation. Working with real housing data reinforced the importance of thorough data cleaning before modeling: removing 49 zero-price records and adding the `waterfront` feature together raised the model's R² from 0.39 to 0.55.
 
-I also learned that fair model comparison requires consistent conditions. Tree-based models trained with default parameters overfit severely (the untuned Decision Tree scored R² = -1.97 on the test set), making them look worse than they are. Applying regularisation hyperparameters and cross-validation produced a valid comparison.
+The biggest lesson was how much data quality and feature selection matter before any modeling begins. Cleaning the zero-price records and adding `waterfront` (one binary column) pushed R² from 0.39 to 0.55. No amount of model tuning would have achieved that.
 
-Finally, this project strengthened my ability to interpret results beyond headline metrics - using residual plots, Q-Q diagnostics, and feature importance charts to explain model behaviour and limitations clearly to non-technical stakeholders.
+Fair comparison was another thing that required care. Tree models with no constraints will overfit badly and look terrible against a linear model on test data, not because they're worse, but because the comparison isn't set up properly. Getting that right meant applying regularisation and cross-validation consistently across all three.
 
-## Challenges I Faced
-One key challenge was discovering that the original model comparison was unfair. The default Decision Tree had no depth limit, causing it to massively overfit and produce a negative R² on test data. Recognising this and applying regularisation before comparing models was an important step in producing trustworthy conclusions.
+And finally, the residual diagnostics turned out to be more informative than the headline metrics. R² tells you how well the model fits. Residual plots tell you *how* it's failing, and that's usually the more actionable insight.
 
-Another challenge was data quality. The 49 zero-price records were not flagged by a simple `isnull()` check - they required a domain-aware inspection of plausible value ranges. Similarly, the `waterfront` column was available all along but had been excluded without justification; including it turned out to be the single biggest driver of improvement.
+## Challenges
 
-Interpreting heteroscedasticity and the cross-validation gap also required careful analysis and reinforced the value of diagnostic visualisations beyond raw metrics.
+The trickiest part wasn't the modeling, it was the data. Zero-price records don't show up in a missing value check. You only spot them if you think to ask whether the values make sense in the real world, not just whether they're present. That kind of domain-aware inspection is easy to skip and expensive to miss.
+
+The model comparison also required some thought. An unconstrained Decision Tree can score R² = -1.97 on test data, which looks like a damning result until you realise it just memorised the training set. Understanding why that happens, and how to fix it, was more valuable than the final numbers.
 
 ## Conclusion
-This project demonstrates that careful data cleaning, complete feature selection, and fair model evaluation matter more than model complexity. Including `waterfront`, removing data errors, regularising tree models, and adding cross-validation transformed the analysis from a partially misleading baseline into a technically sound and defensible result.
 
-Linear regression remains the strongest model on this feature set, interpretable, stable, and well-calibrated for the mid-price range. To push performance further, the next steps would be adding location features (zip code or coordinates), engineering interaction terms, applying a log transformation to the target variable to address heteroscedasticity, and using `GridSearchCV` for systematic tuning.
+This project is a case for keeping things simple and being rigorous about the basics. A well-prepared dataset, a complete feature set, and a fair evaluation framework produced a model that's interpretable, consistent, and honest about its limitations.
+
+For anyone looking to take it further: adding location features (zip code, latitude/longitude) would likely be the single biggest improvement. After that, interaction terms, a log transformation on price to tame the heteroscedasticity and a proper grid search for hyperparameters are all natural next steps.
