@@ -65,7 +65,7 @@ The model explains about 55% of the variation in sale prices, with an average pr
 
 The cross-validation R² (0.47) is worth noting too. It's lower than the test score (0.55), which means the test split was slightly kind. The CV number is the more honest estimate of how this would perform on genuinely new data.
 
-![actual_vs_prdicted_house_prices.png](images/actual_vs_prdicted_house_prices.png)
+![actual_vs_prdicted_house_prices.png](images_and_data/actual_vs_prdicted_house_prices.png)
 
 Looking at the residuals, there's a clear fan-shaped pattern, errors stay small for cheaper homes but blow out for expensive ones. This is heteroscedasticity and it shows up in the Q-Q plot too, where the tails deviate from the normal line. In plain terms: the model is fairly reliable in the middle of the market, but loses confidence at the high end where premium factors like views, neighbourhood prestige, and lot quality start dominating the price.
 
