@@ -28,7 +28,7 @@ df = df[df['price'] > 0]
 df['condition'] = df['condition'].fillna(df['condition'].median())
 ```
 
-View the full notebook here: [house_price_prediction_improved.ipynb](house_price_prediction_improved.ipynb)
+View the full notebook here: [house_price_prediction.ipynb](house_price_prediction.ipynb)
 
 ## The Analysis
 
