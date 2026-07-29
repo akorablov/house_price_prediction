@@ -1,6 +1,6 @@
 ## Overview
 
-This project walks through that end-to-end process using a dataset of 4140 residential property sales. I trained and compared three regression models: Linear Regression, Decision Tree, and Random Forest, to estimate sale prices from structural features like living area, number of rooms, condition, and waterfront status. The goal wasn't just to get a prediction out, but to understand how well these features actually explain price, where each model struggles and what that reveals about real estate pricing in practice.
+This project walks through the end-to-end process using a dataset of 4140 residential property sales. I trained and compared three regression models: Linear Regression, Decision Tree and Random Forest, to estimate sale prices from structural features like living area, number of rooms, condition and waterfront status. The goal wasn't just to get a prediction out, but to understand how well these features actually explain price, where each model struggles and what that reveals about real estate pricing in practice.
 
 ## The Questions
 
