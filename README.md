@@ -13,7 +13,7 @@
 - **Prague apartments cost 3.6× more** than the cheapest region (Ústecký kraj), 9.9M CZK vs. 2.75M CZK, median.
 - **3,000,000 CZK buys you 18 m² in Prague or 68 m² in Most.** Same money, 3.9× the space.
 - **Brick beats panel by 41%.** A "cihlová" (brick) apartment costs ~102,700 CZK/m²; a "panelová" (Communist-era prefab) one costs ~72,800 CZK/m².
-- **"Coming soon" beats "already built."** Off-plan apartments still at the blueprint stage (`Projekt`) sell for *more* per m² than finished new construction (`Novostavba`), 147,000 vs. 125,844 CZK/m². More on this below; it's the single most counter-intuitive thing in the whole dataset.
+- **"Coming soon" beats "already built".** Off-plan apartments still at the blueprint stage (`Projekt`) sell for *more* per m² than finished new construction (`Novostavba`), 147,000 vs. 125,844 CZK/m². More on this below; it's the single most counter-intuitive thing in the whole dataset.
 - **Distance from Prague isn't a straight line down.** Price drops steadily for the first ~75 km, then ticks back *up* past 75 km, because that's far enough to start running into Brno, Ostrava and other regional cities with their own price gravity.
 - Even *within* Prague, location swings price 2.2×: Staré Město (225,000 CZK/m²) vs. Dolní Měcholupy (101,250 CZK/m²).
 - A tuned Random Forest explains **~80% of price variance** using only structural + location data, no photos, no agent's gut feeling. Typical miss: **~1.3M CZK** on a mid-market apartment. Good enough to be interesting, nowhere near appraisal-grade.
@@ -163,7 +163,7 @@ Full details, code and diagnostics (residuals, coefficient stability, VIF tables
 
 Being upfront about this matters more than the headline R²:
 
-- **Errors grow with price.** The model is proportionally consistent, but on multi-million-CZK Prague listings, an absolute miss of 1M+ CZK is common. Structural features can't capture "unbeatable view" or "just renovated by a design studio."
+- **Errors grow with price.** The model is proportionally consistent, but on multi-million-CZK Prague listings, an absolute miss of 1M+ CZK is common. Structural features can't capture "unbeatable view" or "just renovated by a design studio".
 - **~20% of price variation is simply invisible to this data.** No photos, no interior quality, no exact micro-location, no negotiation dynamics. That gap is the honest ceiling of what a listing scrape can ever explain.
 - **Rare categories destabilize the linear model.** A handful of unusual heating types (a few dozen listings each) can swing a linear coefficient by millions of CZK, a small-sample artifact, not a real effect. The tree-based models are far more robust to this.
 
