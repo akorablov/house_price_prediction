@@ -5,6 +5,8 @@
 > **However you got here:** the charts and bold takeaways tell the whole story on their own, skim those. Anything folded into a `▸ details` block is for people who want the methodology, the caveats or the code. Nothing important is hidden in there; it's just not required reading.
 
 ---
+![Map of apartment prices across Czechia](images_and_data/cz_map.png)
+*Every dot is a real listing. Brighter = more expensive. Prague and Brno light up immediately, everywhere else tells a quieter story.*
 
 ## The numbers that surprised me most
 
@@ -25,11 +27,6 @@ Everyone in Czechia has an opinion about real estate prices. Almost nobody has l
 1. **What really drives apartment prices**: size, location, condition, or something else entirely?
 2. **Can a model predict price accurately enough to be useful**, using only the kind of information you'd see in a listing?
 3. **Where does the model break down** and what does that tell us about what a spreadsheet can never capture?
-
-So I scraped around **20,000 real listings** from Sreality.cz, the largest Czech real-estate portal, cleaned the mess out of them and let the data answer.
-
-![Map of apartment prices across Czechia](images_and_data/cz_map.png)
-*Every dot is a real listing. Brighter = more expensive. Prague and Brno light up immediately, everywhere else tells a quieter story.*
 
 ---
 
@@ -212,7 +209,7 @@ Beyond that, in rough order of effort-to-payoff:
 └── README.md
 ```
 
-Open the notebook and run it top to bottom — every result above, including the repeated spatial evaluation, regenerates from scratch with fixed random seeds.
+Open the notebook and run it top to bottom every result above, including the repeated spatial evaluation, regenerates from scratch with fixed random seeds.
 
 ---
 
