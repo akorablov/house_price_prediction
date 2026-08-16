@@ -95,7 +95,7 @@ Controlling for nothing else but construction type, brick ("cihlová") buildings
 
 ---
 
-## The Cleaning files: What the data tried to tell us
+## The cleaning files: when the numbers don't make sense
 
 Before any modeling, the raw listings had to survive some genuinely funny quality checks:
 
