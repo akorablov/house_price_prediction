@@ -183,7 +183,7 @@ Location is the biggest lever left unused. `latitude`/`longitude` are in the dat
 Beyond that, in rough order of effort-to-payoff:
 
 - **Log-target for the tree models, not just Linear Regression**, could tame the "errors grow with price" pattern directly.
-- **Richer features**: nearby schools/parks/noise, building age, floor-within-building context.
+- **Richer features**: nearby schools/parks/noise, building age, waterfront or view, floor-within-building context.
 - **Photo-derived features**, a model scoring "renovated vs. dated" from listing photos. Most likely to move the needle a lot; also the most work by a wide margin.
 - **Permutation importance / SHAP** instead of impurity-based feature importance, for more defensible claims about what matters most.
 - **Time-aware validation** once listings accumulate across multiple scrape dates, to check the model holds up as the market moves.
