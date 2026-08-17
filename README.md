@@ -11,11 +11,11 @@
 ## The numbers that surprised me most
 
 - **Prague apartments cost 3.6× more** than the cheapest region (Ústecký kraj), 9.9M CZK vs. 2.75M CZK, median.
-- **3,000,000 CZK buys you 18 m² in Prague or 68 m² in Most.** Same money, 3.9× the space.
-- **Brick beats panel by 41%.** A "cihlová" (brick) apartment costs ~103,250 CZK/m²; a "panelová" (Communist-era prefab) one costs ~72,984 CZK/m².
-- **"Coming soon" beats "already built".** Off-plan apartments still at the blueprint stage (`Projekt`) sell for *more* per m² than finished new construction (`Novostavba`), 145,004 vs. 129,223 CZK/m². More on this below; it's the single most counter-intuitive thing in the whole dataset.
+- **3,000,000 CZK buys you 18 m² in Prague or 68 m² in Most.** Same money, 3.8× the space.
+- **Brick beats panel by 42%.** A "cihlová" (brick) apartment costs ~103,313 CZK/m², a "panelová" (Communist-era prefab) one costs ~72,987 CZK/m².
+- **"Coming soon" beats "already built".** Off-plan apartments still at the blueprint stage (`Projekt`) sell for more per m² than finished new construction (`Novostavba`), 145,004 vs. 129,523 CZK/m². More on this below. It's the single most counter-intuitive thing in the whole dataset.
 - **Distance from Prague isn't a straight line down.** Price drops steadily for the first ~75 km, then ticks back *up* past 75 km, because that's far enough to start running into Brno, Ostrava and other regional cities with their own price gravity.
-- Even *within* Prague, location swings price 1.9×: Staré Město (225,000 CZK/m²) vs. Černý Most (119,254 CZK/m²).
+- Even *within* Prague, location swings price 1.9×: Staré Město (225,000 CZK/m²) vs. Černý Most (119,306 CZK/m²).
 - A tuned Random Forest explains **~80% of price variance** using only structural + location data, no photos, no agent's gut feeling. Typical miss: **~1.2M CZK** on a mid-market apartment. Good enough to be interesting, nowhere near appraisal-grade.
 
 ---
@@ -42,13 +42,13 @@ To make that concrete: here's how far **3,000,000 CZK** stretches, city by city.
 
 ![What 3 million CZK buys](images_and_data/3m_buy.png)
 
-In Prague, that budget buys an **18 m²** space, barely bigger than a hotel room. In Most, the same money buys **68 m²**, a proper two-bedroom flat. Same currency, same country, 3.9× the living space.
+In Prague, that budget buys an **18 m²** space, barely bigger than a hotel room. In Most, the same money buys **68 m²**, a proper two-bedroom flat. Same currency, same country, 3.8× the living space.
 
 ### Even within Prague, location makes a difference
 
 ![Prague neighborhoods, most vs least expensive](images_and_data/prague_neighborhoods.png)
 
-Staré Město (Old Town) runs **225,000 CZK/m²**. Černý Most, on the opposite edge of the city, runs **119,254 CZK/m²**, just over half. "Prague prices" isn't a single number, it's a gradient that can nearly double before you leave the city limits.
+Staré Město (Old Town) runs **225,000 CZK/m²**. Černý Most, on the opposite edge of the city, runs **119,306 CZK/m²**, just over half. "Prague prices" isn't a single number, it's a gradient that can nearly double before you leave the city limits.
 
 **A correction, worth explaining rather than quietly editing in.** Anuita (the outstanding cooperative-ownership balance on družstevní units) is now added to price_czk. An annuity paid down over years isn't quite the same as cash today, but it's more honest than ignoring the obligation entirely. The effect was small but real: Dolní Měcholupy was Prague's cheapest neighborhood at 2.2× below Staré Město. With the true cost included, it's no longer the cheapest at all (Černý Most is) and the gap narrows to 1.9×. Every number in this piece reflects that fix.
 
@@ -58,7 +58,7 @@ Staré Město (Old Town) runs **225,000 CZK/m²**. Černý Most, on the opposite
 
 ![How much does Prague proximity cost](images_and_data/prague_proximity.png)
 
-The obvious story is here: apartments 0-5 km from Prague's center go for **181,459 CZK/m²**; apartments 100+ km away go for **81,447 CZK/m²**, a 55% drop. Distance to the capital is the second-strongest predictor in the entire model, right behind size.
+The obvious story is here: apartments 0-5 km from Prague's center go for **181,636 CZK/m²**, apartments 100+ km away go for **81,447 CZK/m²**, a 55% drop. Distance to the capital is the second-strongest predictor in the entire model, right behind size.
 
 But look closer and the curve isn't a straight decline, it **bottoms out around the 50-75 km mark, then rises again** past 75 km. That's not noise. It’s the map showing up in the data. At some point, being "far from Prague" no longer means being in the middle of nowhere. It can mean being closer to Brno, Ostrava, or another regional center, each with its own pull on local prices. A single "distance to Prague" number can not see that, it only knows about one city.
 
@@ -79,11 +79,11 @@ This is the clearest evidence in the whole project that `dist_to_prague_km` is a
 
 This is the chart that overturned my own assumption going in. I expected a clean staircase: worse condition > cheapest, `Novostavba` (new construction) > priciest. That's not what the data shows.
 
-**The single most expensive category per m² isn't finished new construction, it's `Projekt`: apartments still being sold off-plan, before a single wall exists.** At 145,004 CZK/m², off-plan listings out-price apartments currently under construction (`Ve výstavbě`, 137,083 CZK/m²) and completed new builds (`Novostavba`, 129,223 CZK/m²). Meanwhile `Před rekonstrukcí` (needs renovation) is the cheapest surviving category at 64,942 CZK/m², but it's barely behind `Dobrý` (good condition, 66,973 CZK/m²) and both sit well below several "worse-sounding" construction-stage categories.
+**The single most expensive category per m² isn't finished new construction, it's `Projekt`: apartments still being sold off-plan, before a single wall exists.** At 145,004 CZK/m², off-plan listings out-price apartments currently under construction (`Ve výstavbě`, 139,091 CZK/m²) and completed new builds (`Novostavba`, 129,523 CZK/m²). Meanwhile `Před rekonstrukcí` (needs renovation) is the cheapest surviving category at 65,000 CZK/m², but it's barely behind `Dobrý` (good condition, 66,973 CZK/m²) and both sit well below several "worse-sounding" construction-stage categories.
 
-A few things are plausible here and I don't think it's just one of them: developers price off-plan units ambitiously since there's nothing tangible yet to negotiate against; off-plan projects cluster disproportionately in already-desirable Prague developments and buyers of pre-construction units are partly paying for optionality (choice of floor, layout, finishes) that a finished unit no longer offers. Worth treating as a real pattern, not a data error. Every category shown has several hundred to several thousand listings behind it, so this isn't a small-sample fluke.
+A few things are plausible here and I don't think it's just one of them: developers price off-plan units ambitiously since there's nothing tangible yet to negotiate against, off-plan projects cluster disproportionately in already-desirable Prague developments and buyers of pre-construction units are partly paying for optionality (choice of floor, layout, finishes) that a finished unit no longer offers. Worth treating as a real pattern, not a data error. Every category shown has several hundred to several thousand listings behind it, so this isn't a small-sample fluke.
 
-**This is also the answer to a question the model itself raises**: `condition` is one of the *weakest* predictors (barely registers in feature importance), despite this chart showing real price differences. The likely reason: `condition` isn't independent of the features already doing the heavy lifting. Off-plan and new-build units cluster in the same expensive regions that `region` and `dist_to_prague_km` already capture, so once those are in the model, `condition` has little *additional* signal left to add on top. A real effect, mostly absorbed by correlated features rather than a real effect that doesn't exist.
+**This is also the answer to a question the model itself raises**: `condition` is one of the weakest predictors (barely registers in feature importance), despite this chart showing real price differences. The likely reason: `condition` isn't independent of the features already doing the heavy lifting. Off-plan and new-build units cluster in the same expensive regions that `region` and `dist_to_prague_km` already capture, so once those are in the model, `condition` has little *additional* signal left to add on top. A real effect, mostly absorbed by correlated features rather than a real effect that doesn't exist.
 
 ---
 
@@ -91,9 +91,9 @@ A few things are plausible here and I don't think it's just one of them: develop
 
 ![Panelák vs Cihla price gap](images_and_data/panelak_cihla.png)
 
-Controlling for nothing else but construction type, brick ("cihlová") buildings command a **41% premium** over prefab panel buildings ("panelová"), 103,250 vs. 72,984 CZK/m². Panel buildings still make up a huge share of Czech housing stock and the market clearly still prices in the difference decades after most of them were built.
+Controlling for nothing else but construction type, brick ("cihlová") buildings command a **42% premium** over prefab panel buildings ("panelová"), 103,313 vs. 72,987 CZK/m². Panel buildings still make up a huge share of Czech housing stock and the market clearly still prices in the difference decades after most of them were built.
 
-**And the single most expensive listing in the whole dataset?** An 87,000,000 CZK, 212 m² apartment in Prague 1's Josefov quarter, roughly 1,800 average Czech monthly salaries, for one flat.
+**And the single most expensive listing in the whole dataset?** An 87,000,000 CZK, 212 m² apartment in Prague 1's Josefov quarter, roughly 1,720 average Czech monthly salaries, for one flat.
 
 ---
 
@@ -101,7 +101,7 @@ Controlling for nothing else but construction type, brick ("cihlová") buildings
 
 Before any modeling, the raw listings had to survive some genuinely funny quality checks:
 
-- A "68 m² apartment" in **Jirkov** (population ~19,000) was listed on **floor 368**. For context: the AZ Tower in Brno, Czechia's tallest building, has 30 floors total. This one would out-tower it more than 12 times over. This line was dropped.
+- A "68 m² apartment" in **Jirkov** (population ~19,000) was listed on **floor 368**. For context: the AZ Tower in Brno, Czechia's tallest building, has 30 floors total. This one would out-tower it more than 12 times over. Dropped.
 - An 82 m² apartment in **Poděbrady** was listed for **98,000 CZK**, about 1,195 CZK per square meter, roughly the going rate for a decent bicycle, not an apartment. Filtered out.
 - A listing in **Mladá Boleslav** claimed **5,989 m²** of living space for 9.7M CZK, either a palace at bargain-basement pricing or (far more likely) a typo that turned an apartment into a small stadium. Filtered out.
 
@@ -120,25 +120,25 @@ I compared seven models: two non-ML baselines, Linear Regression (raw and log-tr
 
 | Model | R² (mean of 15 spatial splits) | Avg. Error (MAPE) |
 |---|---|---|
-| Naive baseline (region median) | 0.283 | 37.1% |
-| Naive baseline (price/m² × region area) | 0.673 | 30.0% |
-| Linear Regression | 0.672 | 30.3% |
-| Linear Regression (log-price) | 0.710 | 22.5% |
-| Decision Tree | 0.743 | 25.3% |
-| **Gradient Boosting** | **0.809** | **19.7%** |
-| **Random Forest** | **0.810** | **19.5%** |
+| Naive baseline (region median) | 0.286 | 36.7% |
+| Naive baseline (price/m² × region area) | 0.674 | 29.8% |
+| Linear Regression | 0.674 | 29.9% |
+| Linear Regression (log-price) | 0.711 | 22.3% |
+| Decision Tree | 0.742 | 23.9% |
+| **Gradient Boosting** | **0.806** | **19.8%** |
+| **Random Forest** | **0.809** | **19.8%** |
 
-*(Every model was re-run across 15 independent geographic train/test splits and the mean is reported here, see the methodology note below for why that matters.)*
+*(Every model was re-run across 15 independent geographic train/test splits and the mean is reported here, see the methodology note below for why that matters)*
 
 In plain terms: the best model explains **about 80% of the variation in apartment asking prices**, using size, distance to Prague, room count, condition and a handful of similar structural features. No photos, no great natural light, no agent intuition.
 
-What it *doesn't* do is nail the number. MAPE is an **average** error, not a bound, on a mid-market apartment (~6-7M CZK), the typical miss is around **1.2M CZK** and it's worse on expensive Prague listings, better on cheap regional ones. That's also being measured against **asking price, not confirmed sale price**, since that's what a listing scrape gives you. So: genuinely useful for showing *what drives* price and for spotting a listing that looks structurally over- or under-priced relative to comparable ones.
+What it doesn't do is nail the number. MAPE is an **average** error, not a bound, on a mid-market apartment (~6-7M CZK), the typical miss is around **1.2M CZK** and it's worse on expensive Prague listings, better on cheap regional ones. That's also being measured against **asking price, not confirmed sale price**, since that's what a listing scrape gives you. So: genuinely useful for showing what drives price and for spotting a listing that looks structurally over- or under-priced relative to comparable ones.
 
 ### So what actually matters?
 
 ![Feature importance](images_and_data/feature_importance.png)
 
-Two features dominate: **apartment size** and **distance to Prague**. Exactly how much depends on which model you ask, **Gradient Boosting concentrates 76.4% of its decision-making in these two alone; Random Forest spreads more weight elsewhere (57.5% combined), giving more credit to room count, the Prague-region flag and metro access.** Either way, everything else is a distant second act.
+Two features dominate: **apartment size** and **distance to Prague**. Exactly how much depends on which model you ask, Gradient Boosting concentrates 76.8% of its decision-making in these two alone. Random Forest spreads more weight elsewhere (59.7% combined), giving more credit to room count, the Prague-region flag and metro access. Either way, everything else is a distant second act.
 
 That's a slightly unglamorous conclusion. It's also exactly what anyone who is apartment-hunted in Czechia already suspected, which is reassuring rather than boring: the model isn't inventing a story, it's confirming one with numbers and the condition and Prague-proximity charts above show *why* the story is more textured than "bigger and closer = pricier" once you actually look.
 
@@ -184,7 +184,7 @@ Beyond that, in rough order of effort-to-payoff:
 
 - **Log-target for the tree models, not just Linear Regression**, could tame the "errors grow with price" pattern directly.
 - **Richer features**: nearby schools/parks/noise, building age, waterfront or view, floor-within-building context.
-- **Photo-derived features**, a model scoring "renovated vs. dated" from listing photos. Most likely to move the needle a lot; also the most work by a wide margin.
+- **Photo-derived features**, a model scoring "renovated vs. dated" from listing photos. Most likely to move the needle a lot, also the most work by a wide margin.
 - **Permutation importance / SHAP** instead of impurity-based feature importance, for more defensible claims about what matters most.
 - **Time-aware validation** once listings accumulate across multiple scrape dates, to check the model holds up as the market moves.
 
