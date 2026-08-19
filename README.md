@@ -42,7 +42,7 @@ To make that concrete: here's how far **3,000,000 CZK** stretches, city by city.
 
 ![What 3 million CZK buys](images_and_data/3m_buy.png)
 
-In Prague, that budget buys an **18 m²** space, barely bigger than a hotel room. In Most, the same money buys **68 m²**, a proper two-bedroom flat. Same currency, same country, 3.8× the living space.
+In Prague, that budget buys an **18 m²** space, barely bigger than a hotel room. In Most, the same money buys **68 m²**, a proper two-bedroom flat. Same currency, same country, 3.9× the living space.
 
 ### Even within Prague, location makes a difference
 
