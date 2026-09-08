@@ -10,7 +10,7 @@
 
 ## The numbers that surprised me most
 
-- **Prague apartments cost 3.7x more** than the cheapest region (Ústecký kraj), 9.9M CZK vs. 2.70M CZK, median.
+- **Prague apartments cost 3.7x more** than the cheapest region (Ústecký kraj), 9.86M CZK vs. 2.70M CZK, median.
 - **3,000,000 CZK buys you 18 m² in Prague or 68 m² in Most.** Same money, 3.9x the space.
 - **Brick beats panel by 41%.** A "cihlová" (brick) apartment costs ~104,074 CZK/m², a "panelová" (Communist-era prefab) one costs ~73,611 CZK/m².
 - **"Coming soon" beats "already built".** Off-plan apartments still at the blueprint stage (`Projekt`) sell for more per m² than finished new construction (`Novostavba`), 146,405 vs. 132,337 CZK/m². More on this below. It's the single most counter-intuitive thing in the whole dataset.
